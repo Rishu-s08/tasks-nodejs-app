@@ -49,17 +49,14 @@ class AuthRemoteRepository {
   Future<UserModel?> getUserData() async {
     try {
       final token = await _spService.getToken();
-      print('Token found: $token');
 
       if (token == null) {
         return null;
       }
-      print('Token found: $token');
       final res = await http.get(
         Uri.parse(Paths.tokenIsValidEndpoint),
         headers: {'Content-Type': 'application/json', 'x-auth-token': token},
       );
-      print('Token validation response: ${res.body}');
       if (res.statusCode != 200 && res.statusCode != 201) {
         return null;
       }
@@ -73,7 +70,6 @@ class AuthRemoteRepository {
         Uri.parse('${Paths.backendBaseUrl}/auth'),
         headers: {'Content-Type': 'application/json', 'x-auth-token': token},
       );
-      print('User data response: ${userData.body}');
       if (userData.statusCode != 200 && userData.statusCode != 201) {
         throw jsonDecode(userData.body)['message'];
       }
@@ -81,8 +77,6 @@ class AuthRemoteRepository {
       return UserModel.fromJson(userData.body);
     } catch (e) {
       final user = await _authLocalRepository.getUser();
-      print('Error fetching user data remotely: $e');
-      print('Returning user from local DB: $user');
       return user;
     }
   }

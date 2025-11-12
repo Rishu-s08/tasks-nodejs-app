@@ -45,7 +45,6 @@ class TaskRemoteRepository {
           color: hexToRgb(hexColor),
           isSynced: 0,
         );
-        print('Offline Created Task: $task');
         await _taskLocalRepository.insertTask(task);
         return task;
       } catch (e) {
@@ -105,7 +104,6 @@ class TaskRemoteRepository {
       }
       return true;
     } catch (e) {
-      print(e);
       return false;
     }
   }

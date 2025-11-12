@@ -40,20 +40,15 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: BlocConsumer<AuthCubit, AuthState>(
         listenWhen: (previous, current) {
-          // Only listen when state actually changes
           return previous != current;
         },
         listener: (context, state) {
-          print('Login page listener - State: $state');
           if (state is AuthError) {
-            print('Error state detected');
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(state.message)));
           }
           if (state is AuthLoggedIn) {
-            print('AuthLoggedIn state detected - navigating to home');
-            // Remove any existing snackbars before navigating
             ScaffoldMessenger.of(context).clearSnackBars();
             Navigator.of(context).pushReplacement(HomePage.route());
           }

@@ -33,7 +33,6 @@ class _HomePageState extends State<HomePage> {
       if (data.contains(ConnectivityResult.wifi) ||
           data.contains(ConnectivityResult.mobile)) {
         await context.read<TaskCubit>().syncTasks(token: user.user.token);
-        print('Network connected - synced tasks');
       }
     });
 
@@ -86,9 +85,6 @@ class _HomePageState extends State<HomePage> {
               return DateSelector(
                 selectedDate: selectedDate,
                 onTap: (date) {
-                  print(
-                    'Date selected: ${DateFormat('MMM d, y').format(date)}',
-                  );
                   setState(() {
                     selectedDate = date;
                   });
@@ -110,9 +106,6 @@ class _HomePageState extends State<HomePage> {
                 }
                 if (state is GetTasksSuccess) {
                   final tasks = _filterTasksByDate(state.tasks);
-                  print(
-                    'Filtered tasks for ${DateFormat('MMM d, y').format(selectedDate)}: ${tasks.length}',
-                  );
 
                   if (tasks.isEmpty) {
                     return Center(child: Text('No tasks for this date'));

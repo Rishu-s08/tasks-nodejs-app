@@ -17,15 +17,13 @@ class AuthCubit extends Cubit<AuthState> {
     required String password,
     required String name,
   }) async {
-    // Implementation for signing up a user
     try {
       emit(AuthLoading());
-      final UserModel user = await _authRemoteRepository.signUp(
+      await _authRemoteRepository.signUp(
         email: email,
         password: password,
         name: name,
       );
-      print(user);
       emit(AuthSignUp());
     } catch (e) {
       emit(AuthError(message: e.toString()));
@@ -35,24 +33,16 @@ class AuthCubit extends Cubit<AuthState> {
   void logIn({required String email, required String password}) async {
     try {
       emit(AuthLoading());
-      print('Starting login...');
       final user = await _authRemoteRepository.signIn(email, password);
-      print('User received: $user');
-      print('Token: ${user.token}');
 
       if (user.token.isNotEmpty) {
         _spService.setToken(user.token);
-        print('Token saved to SharedPreferences');
       }
 
       await _authLocalRepository.insertUser(user);
-      print('User saved to local DB');
 
-      print('Emitting AuthLoggedIn state');
       emit(AuthLoggedIn(user: user));
-      print('AuthLoggedIn state emitted');
     } catch (e) {
-      print('Login error: $e');
       emit(AuthError(message: e.toString()));
     }
   }
@@ -60,9 +50,7 @@ class AuthCubit extends Cubit<AuthState> {
   void getUserData() async {
     try {
       emit(AuthLoading());
-      print('Getting user data');
       final user = await _authRemoteRepository.getUserData();
-      print('User data retrieved: $user');
 
       if (user != null) {
         emit(AuthLoggedIn(user: user));

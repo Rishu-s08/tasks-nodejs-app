@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: todonodejs-api
+    env: node
+    region: oregon
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: todonodejs-db
+          property: connectionString
+      - key: PORT
+        value: 8000
+
+databases:
+  - name: todonodejs-db
+    databaseName: todonodejs
+    user: todonodejs
+    region: oregon

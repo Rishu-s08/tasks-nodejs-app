@@ -23,9 +23,6 @@ class TaskCubit extends Cubit<TaskState> {
     try {
       emit(TaskLoading());
       final hexColor = rgbToHex(color);
-      print(
-        'title: $title, description: $description, hexColor: $hexColor, dueAt: $dueAt, token: $token',
-      );
       final task = await _taskRemoteRepository.createTask(
         title: title,
         description: description,
@@ -35,7 +32,6 @@ class TaskCubit extends Cubit<TaskState> {
         dueAt: dueAt,
       );
       await _taskLocalRepository.insertTask(task);
-      print('Created Task: $task');
       emit(TaskSuccess(task));
     } catch (e) {
       emit(TaskError(e.toString()));
@@ -53,20 +49,15 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   Future<void> syncTasks({required String token}) async {
-    //get all unsynced tasks from local db
-
     final unsyncedTasks = await _taskLocalRepository.getUnsyncedTasks();
     if (unsyncedTasks.isEmpty) {
-      print('No unsynced tasks to sync.');
       return;
     }
-    //sync them with backend
     final isSynced = await _taskRemoteRepository.syncTasks(
       token: token,
       tasks: unsyncedTasks,
     );
 
-    //update their isSynced status in local db
     if (isSynced) {
       for (final task in unsyncedTasks) {
         final syncedTask = task.copyWith(isSynced: 1);

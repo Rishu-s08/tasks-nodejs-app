@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "dev:docker": "nodemon --legacy-watch --poll-interval 1000 src/index.ts",
-    "start": "ts-node src/index.ts",
+    "start": "node dist/index.js",
     "build": "tsc",
+    "postbuild": "cd src && npx drizzle-kit push",
     "db:generate": "docker exec -it backend-backend-1 sh -c \"cd /app/src && NODE_ENV=development npx drizzle-kit generate\"",
     "db:push": "docker exec -it backend-backend-1 sh -c \"cd /app/src && NODE_ENV=development npx drizzle-kit push\"",
     "db:studio": "docker exec -it backend-backend-1 sh -c \"cd /app/src && NODE_ENV=development npx drizzle-kit studio\""
@@ -17,6 +18,7 @@
   "description": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "drizzle-kit": "^0.28.1",
     "drizzle-orm": "^0.36.4",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
@@ -28,7 +30,6 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.10.0",
     "@types/pg": "^8.11.10",
-    "drizzle-kit": "^0.28.1",
     "nodemon": "^3.1.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"

@@ -12,36 +12,27 @@ import 'package:workmanager/workmanager.dart';
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
-    // Perform background task here
-    print("Background Task: $task executed");
     try {
-      // Create repository instances directly (no context needed)
       final taskRemoteRepository = TaskRemoteRepository();
       final taskLocalRepository = TaskLocalRepository();
       final token = inputData?['token'] as String? ?? '';
 
       if (token.isNotEmpty) {
-        // Get all local tasks that need to be synced
         final localTasks = await taskLocalRepository.getUnsyncedTasks();
 
         if (localTasks.isNotEmpty) {
-          print("Syncing ${localTasks.length} unsynced tasks");
           final success = await taskRemoteRepository.syncTasks(
             token: token,
             tasks: localTasks,
           );
-          print("Sync completed: $success");
           return Future.value(success);
         } else {
-          print("No unsynced tasks to sync");
           return Future.value(true);
         }
       } else {
-        print("No token provided for sync");
         return Future.value(false);
       }
     } catch (e) {
-      print("Error during background sync: $e");
       return Future.value(false);
     }
   });

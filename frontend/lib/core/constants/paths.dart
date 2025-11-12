@@ -1,15 +1,5 @@
-import 'dart:io';
-
 class Paths {
-  // Use 10.0.2.2 for Android emulator, localhost for iOS simulator
-  // For physical device, replace with your computer's IP address
-  static String get backendBaseUrl {
-    if (Platform.isAndroid) {
-      return 'http://10.0.2.2:3000'; // Android emulator
-    } else {
-      return 'http://localhost:3000'; // iOS simulator or other platforms
-    }
-  }
+  static const String backendBaseUrl = 'https://tasks-nodejs-app.onrender.com';
 
   static String get signUpEndpoint => '$backendBaseUrl/auth/signup';
   static String get signInEndpoint => '$backendBaseUrl/auth/login';

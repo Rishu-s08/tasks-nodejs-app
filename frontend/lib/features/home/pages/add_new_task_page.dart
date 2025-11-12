@@ -62,7 +62,6 @@ class _AddNewTaskPageState extends State<AddNewTaskPage> {
                 lastDate: DateTime.now().add(Duration(days: 90)),
                 initialDate: DateTime.now(),
               );
-              print(_selectedDate);
 
               if (_selectedDate != null) {
                 setState(() {
