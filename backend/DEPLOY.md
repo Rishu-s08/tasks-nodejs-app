@@ -86,4 +86,4 @@ docker compose up
 
 - Render free tier spins down after 15 minutes of inactivity
 - First request after spin-down may take 30-60 seconds
-- Database migrations run automatically during build (`postbuild` script)
+- Database migrations run automatically on server start (before the API starts)
