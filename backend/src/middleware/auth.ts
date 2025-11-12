@@ -19,7 +19,7 @@ export const authMiddleware = async (req : AuthRequest, res : Response, next : N
             return;
         }
 
-        const verified = jwt.verify(authHeader, "so_secret_key");
+        const verified = jwt.verify(authHeader, process.env.JWT_SECRET || "fallback_secret_key");
 
         if(!verified) {
             res.status(401).json({ message: "Token verification failed, authorization denied" });

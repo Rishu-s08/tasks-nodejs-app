@@ -39,6 +39,7 @@
    - `NODE_ENV` = `production`
    - `DATABASE_URL` = (paste your database URL)
    - `PORT` = `8000`
+   - `JWT_SECRET` = (generate a strong random secret - at least 32 characters)
 
 5. Click "Create Web Service"
 
@@ -57,6 +58,9 @@ docker compose up
 - `NODE_ENV`: Set to `production` for Render, `development` for Docker
 - `DATABASE_URL`: PostgreSQL connection string (auto-provided by Render)
 - `PORT`: Server port (default: 8000)
+- `JWT_SECRET`: Secret key for JWT token signing/verification (REQUIRED)
+  - For production: Generate a strong random string (minimum 32 characters)
+  - Example: Use `openssl rand -base64 32` to generate one
 
 ## API Endpoints
 

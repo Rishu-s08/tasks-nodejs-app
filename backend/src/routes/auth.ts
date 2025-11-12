@@ -69,7 +69,10 @@ authRouter.post('/login', async (req: Request<{}, {}, LoginRequestBody>, res: Re
             return;
         }
 
-        const token = jwt.sign({id: existingUser[0].id, email: existingUser[0].email}, "so_secret_key");
+        const token = jwt.sign(
+            {id: existingUser[0].id, email: existingUser[0].email}, 
+            process.env.JWT_SECRET || "fallback_secret_key"
+        );
 
         res.status(200).json({ message: "Login successful", token, ...existingUser[0] });
     } catch (error) {
@@ -86,7 +89,7 @@ authRouter.get("/tokenIsValid", async(req, res)=>{
             return;
         }
         //verify token
-        const verify = jwt.verify(token, "so_secret_key");
+        const verify = jwt.verify(token, process.env.JWT_SECRET || "fallback_secret_key");
         if(!verify) {
             res.json(false)
             return;
