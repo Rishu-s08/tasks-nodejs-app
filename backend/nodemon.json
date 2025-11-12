@@ -1,0 +1,12 @@
+{
+    "exec" : "ts-node src/index.ts",
+    "watch" : ["src"],
+    "ignore" : ["dist/*", "node_modules/*"],
+    "ext" : "ts,js,json",
+    "legacyWatch": true,
+    "polling": true,
+    "pollInterval": 1000,
+    "env": {
+        "NODE_ENV": "development"
+    }
+}
