@@ -6,8 +6,10 @@
     "dev": "nodemon src/index.ts",
     "dev:docker": "nodemon --legacy-watch --poll-interval 1000 src/index.ts",
     "start": "node dist/index.js",
-    "build": "tsc",
-    "postbuild": "npx drizzle-kit push",
+    "build": "tsc && npm run copy:migrations",
+    "copy:migrations": "node -e \"const fs = require('fs'); const path = require('path'); const src = path.join('src', 'drizzle'); const dest = path.join('dist', 'src', 'drizzle'); fs.mkdirSync(dest, {recursive: true}); fs.cpSync(src, dest, {recursive: true});\"",
+    "postbuild": "node dist/migrate.js",
+    "migrate": "ts-node migrate.ts",
     "db:generate": "docker exec -it backend-backend-1 sh -c \"cd /app/src && NODE_ENV=development npx drizzle-kit generate\"",
     "db:push": "docker exec -it backend-backend-1 sh -c \"cd /app/src && NODE_ENV=development npx drizzle-kit push\"",
     "db:studio": "docker exec -it backend-backend-1 sh -c \"cd /app/src && NODE_ENV=development npx drizzle-kit studio\""
