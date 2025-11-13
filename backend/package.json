@@ -5,10 +5,11 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "dev:docker": "nodemon --legacy-watch --poll-interval 1000 src/index.ts",
-    "start": "node dist/migrate.js && node dist/index.js",
+    "start": "echo '🚀 Starting application...' && node dist/init-db.js && echo '✅ Database ready, starting server...' && node dist/index.js",
     "build": "tsc && npm run copy:migrations",
     "copy:migrations": "node -e \"const fs = require('fs'); const path = require('path'); const src = path.join('src', 'drizzle'); const dest = path.join('dist', 'src', 'drizzle'); fs.mkdirSync(dest, {recursive: true}); fs.cpSync(src, dest, {recursive: true});\"",
     "migrate": "ts-node migrate.ts",
+    "init-db": "ts-node init-db.ts",
     "db:generate": "docker exec -it backend-backend-1 sh -c \"cd /app/src && NODE_ENV=development npx drizzle-kit generate\"",
     "db:push": "docker exec -it backend-backend-1 sh -c \"cd /app/src && NODE_ENV=development npx drizzle-kit push\"",
     "db:studio": "docker exec -it backend-backend-1 sh -c \"cd /app/src && NODE_ENV=development npx drizzle-kit studio\""
