@@ -5,16 +5,22 @@ WORKDIR /app
 # Copy package files first for better caching
 COPY package*.json ./
 
-# Install dependencies
+# Install ALL dependencies (including devDependencies for build)
 RUN npm install
 
-# Install nodemon globally for development
-RUN npm install -g nodemon ts-node
-
-# Copy source code
+# Copy source code and config files
 COPY . .
+
+# Build TypeScript to JavaScript
+RUN npm run build
+
+# Remove devDependencies to reduce image size (optional)
+# RUN npm prune --production
 
 EXPOSE 8000
 
-# Use nodemon for development with polling for file changes
-CMD ["nodemon", "--legacy-watch", "--poll-interval", "1000", "src/index.ts"]
+# Set production environment
+ENV NODE_ENV=production
+
+# Run database initialization then start server
+CMD ["sh", "-c", "node dist/init-db.js && node dist/index.js"]
