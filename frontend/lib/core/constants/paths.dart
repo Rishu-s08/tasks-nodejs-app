@@ -1,5 +1,6 @@
 class Paths {
-  static const String backendBaseUrl = 'https://tasks-nodejs-app.onrender.com';
+  static const String backendBaseUrl =
+      'https://tasks-nodejs-app-1.onrender.com';
 
   static String get signUpEndpoint => '$backendBaseUrl/auth/signup';
   static String get signInEndpoint => '$backendBaseUrl/auth/login';
